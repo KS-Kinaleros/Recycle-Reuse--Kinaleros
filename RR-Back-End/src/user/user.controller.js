@@ -94,7 +94,7 @@ exports.updateUser = async (req, res) => {
 }
 
 //editar usuario - cuenta propia
-exports.updateUser = async (req, res) => {
+exports.updateAccount = async (req, res) => {
     try {
         let token = req.user.sub
         //obtener data
@@ -102,7 +102,7 @@ exports.updateUser = async (req, res) => {
 
         //actualizar datos
         let userUpdate = await User.findOneAndUpdate(
-            { _id: tokem },
+            { _id: token },
             data,
             { new: true }
         )
@@ -136,7 +136,7 @@ exports.deleteUser = async (req, res) => {
 }
 
 //eliminar usuario - cuenta propia
-exports.deleteUser = async (req, res) => {
+exports.deleteAccount = async (req, res) => {
     try {
         let token = req.user.sub
         //verificar que existe el usuario

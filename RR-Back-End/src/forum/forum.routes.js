@@ -10,7 +10,7 @@ api.post('/saveForum', ensureAuth, forumController.saveForum)
 api.put('/updateForum/:id', ensureAuth, forumController.updateForum)
 api.put('/addAnswer/:id', ensureAuth, forumController.saveAnswer)
 api.delete('/deleteForum/:id', ensureAuth, forumController.deleteForum)
-api.get('/getForums', ensureAuth, forumController.getForums)
-api.get('/getForum/:id', ensureAuth, forumController.getForumId)
+api.get('/getForums', forumController.getForums)
+api.get('/getForum/:id', forumController.getForumId)
 
 module.exports = api
