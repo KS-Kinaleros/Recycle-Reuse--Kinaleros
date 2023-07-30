@@ -12,3 +12,5 @@ api.delete('/deleteCompany/:id', ensureAuth, companyController.deleteCompany)
 api.post('/searchCompany', companyController.searchCompany)
 api.get('/getCompanies', companyController.getCompanies)
 api.get('/getCompany/:id', companyController.getCompanyId)
+
+module.exports = api

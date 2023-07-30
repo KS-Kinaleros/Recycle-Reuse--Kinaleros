@@ -8,6 +8,8 @@ const cors = require('cors')
 const userRoutes = require('../src/user/user.routes')
 const newsRoutes = require('../src/news/news.routes')
 const forumRoutes = require('../src/forum/forum.routes')
+const companyRoutes = require('../src/company/company.routes')
+const productRoutes = require('../src/product/product.routes')
 
 const app = express()
 const port = process.env.PORT || 3100
@@ -21,6 +23,8 @@ app.use(morgan('dev'))
 app.use('/user', userRoutes)
 app.use('/news', newsRoutes)
 app.use('/forum', forumRoutes)
+app.use('/company', companyRoutes)
+app.use('/product', productRoutes)
 
 exports.initServer = () =>{
     app.listen(port)
