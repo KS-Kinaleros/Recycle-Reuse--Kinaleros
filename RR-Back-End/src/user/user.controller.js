@@ -38,6 +38,11 @@ exports.saveUser = async (req, res) => {
         //obtener data
         let data = req.body
 
+        //buscar si ya existe el username
+        let existeUsername = await User.findOne({ username: data.username })
+        if (existeUsername) return res.status(400).send({ message: 'El nombre de usuario ya existe' })
+
+
         let params = {
             password: data.password
         }
@@ -55,6 +60,41 @@ exports.saveUser = async (req, res) => {
         console.error(err)
     }
 }
+
+//agregar admin
+exports.saveAdmin = async (req, res) => {
+    try {
+        //obtener token
+        let token = req.user.sub
+        //verificar que el usuario del token seas admin
+        let userAdmin = await User.findOne({ _id: token })
+        if (userAdmin.role !== "ADMIN") return res.status(403).send({ message: 'No tienes permisos para realizar esta acción' })
+        //obtener data
+        let data = req.body
+
+        //buscar si ya existe el username
+        let existeUsername = await User.findOne({ username: data.username })
+        if (existeUsername) return res.status(400).send({ message: 'El nombre de usuario ya existe' })
+
+        let params = {
+            password: data.password
+        }
+        let validate = validateData(params)
+        if (validate) return res.status(400).send(validate)
+        //encriptar
+        data.password = await encrypt(data.password)
+
+        //role
+        data.role = "ADMIN"
+        //guardar
+        let user = new User(data)
+        await user.save()
+        return res.send({ message: "Usuario creado exitosamente" })
+    } catch (err) {
+        console.error(err)
+    }
+}
+
 
 //login
 exports.login = async (req, res) => {

@@ -5,7 +5,6 @@ const mongoose = require('mongoose')
 const forumSchema = new mongoose.Schema({
     date: {
         type: String,
-        required: true
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,

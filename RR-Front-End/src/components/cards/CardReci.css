@@ -1,0 +1,28 @@
+.containerHomeRe{
+    display: flex;
+    border-radius: 10px;
+    border: 0.5px solid rgb(214, 214, 214);
+    padding: 50px;
+    margin: 40px 0 10px 0;
+    background-color: rgb(255, 255, 255);
+    transition: 0.2s ease-in-out;
+}
+.containerHomeRe:hover{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.text-containerReciclaje{
+    max-width: 900px;
+}
+.titleReciclaje{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+@media (max-width: 770px) {
+    .containerHomeRe{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

@@ -7,6 +7,7 @@ const { ensureAuth, isAdmin } = require('../services/authenticated')
 
 api.get('/test', userController.test)
 api.post('/saveUser', userController.saveUser)
+api.post('/saveAdmin', ensureAuth, userController.saveAdmin)
 api.post('/login', userController.login)
 api.put('/updateUser/:id', ensureAuth, userController.updateUser)
 api.put('/updateAccount', ensureAuth, userController.updateAccount)

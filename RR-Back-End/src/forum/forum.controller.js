@@ -45,7 +45,7 @@ exports.updateForum = async (req, res) => {
         let existForum = await Forum.findOne({ _id: forumId })
         if (!existForum) return res.status(404).send({ message: 'El foro no existe' })
         //validar que el creador del foro sea el mismo que lo esta editando
-        if (existForum.user !== token) return res.status(400).send({ message: 'No tienes permisos para editar este foro' })
+        /* if (existForum.user !== token) return res.status(400).send({ message: 'No tienes permisos para editar este foro' }) */
 
         //obtener data
         let data = req.body
@@ -63,8 +63,8 @@ exports.updateForum = async (req, res) => {
     }
 }
 
-//eliminar foro
-exports.deleteForum = async (req, res) => {
+//eliminar foro -- propio
+exports.deleteForumAccount = async (req, res) => {
     try {
         //obtener token de la persona
         let token = req.user.sub
@@ -76,8 +76,8 @@ exports.deleteForum = async (req, res) => {
         //validar que exista el foro
         let existForum = await Forum.findOne({ _id: forumId })
         if (!existForum) return res.status(404).send({ message: 'El foro no existe' })
-        //validar que el creador del foro sea el mismo que lo esta eliminando
-        if (existForum.user !== token) return res.status(400).send({ message: 'No tienes permisos para eliminar este foro' })
+/*         //validar que el creador del foro sea el mismo que lo esta eliminando
+        if (existForum.user !== token) return res.status(400).send({ message: 'No tienes permisos para eliminar este foro' }) */
 
         //eliminar el foro
         let deleteForum = await Forum.findOneAndDelete({ _id: forumId })
@@ -97,9 +97,10 @@ exports.saveAnswer = async (req, res) => {
         let token = req.user.sub
         //obtener data
         let data = req.body
+        let date = moment().format('DD/MM/YYYY')
 
         //validar que exista el foro
-        let existForum = await User.findOne({ _id: forumId })
+        let existForum = await Forum.findOne({ _id: forumId })
         if (!existForum) return res.status(404).send({ message: 'El foro no existe' })
 
         //guadar la respuesta
@@ -108,9 +109,9 @@ exports.saveAnswer = async (req, res) => {
             {
                 $push: {
                     answers: {
-                        user: userId,
+                        user: token,
                         date: date,
-                        answer: answer,
+                        answer: data.answers,
                     },
                 },
             },
@@ -122,11 +123,81 @@ exports.saveAnswer = async (req, res) => {
         console.error(err)
     }
 }
+//borrar respuesta
+exports.deleteAnswer = async (req, res) => {
+    try {
+        //obtener token de la persona
+        let token = req.user.sub
+        //obtener el id del foro
+        let forumId = req.params.id
+        //obtener el id de la respuesta
+        let answerId = req.params.idAnswer
+        //validar que exista el foro
+        let existForum = await Forum.findOne({ _id: forumId })
+        if (!existForum) return res.status(404).send({ message: 'El foro no existe' })
+
+        //eliminar la respuesta
+        let deletedAnswer = await Forum.findOneAndUpdate(
+            { "answers._id": answerId },
+            { $pull: { answers: { _id: answerId } } },
+            { new: true }
+        );
+
+        if (!deletedAnswer) return res.status(404).send({ message: 'Respuesta no eliminada' })
+        return res.status(200).send({ message: 'Respuesta eliminada correctamente' })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+//obtener respuestas del foro
+exports.getAnswers = async (req, res) => {
+    try {
+        //obtener el id del foro
+        let forumId = req.params.id
+        //validar que exista el foro
+        let existForum = await Forum.findOne({ _id: forumId })
+        if (!existForum) return res.status(404).send({ message: 'El foro no existe' })
+
+        //obtener las respuestas
+        let answers = await Forum.find({ _id: forumId })
+            .select('answers')
+            .populate('answers.user', 'name')
+        return res.send({ answers })
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+//eliminar foro -- admin
+exports.deleteForumAdmin = async (req, res) => {
+    try {
+        //obtener token de la persona
+        let token = req.user.sub
+        //validar que sea admin
+        let userExist = await User.findOne({_id: token})
+        if(userExist.role !== 'ADMIN') return res.status(403).send({message: 'No tienes permisos para eliminar este foro'})
+
+        //obtener el id del foro
+        let forumId = req.params.id
+
+        //validar que exista el foro
+        let existForum = await Forum.findOne({ _id: forumId })
+        if (!existForum) return res.status(404).send({ message: 'El foro no existe' })
+
+        //eliminar el foro
+        let deleteForum = await Forum.findOneAndDelete({ _id: forumId })
+        if (!deleteForum) return res.status(404).send({ message: 'Foro no eliminado' })
+        return res.send({ message: 'Foro eliminado correctamente', deleteForum })
+    } catch (err) {
+        console.error(err)
+    }
+}
 
 //obtener foros
 exports.getForums = async (req, res) => {
     try {
-        let forums = await Forum.find()
+        let forums = await Forum.find().populate('user', 'name')
         if (!forums) return res.status(404).send({ message: 'No hay foros' })
         return res.send({ forums })
     } catch (err) {
@@ -140,7 +211,7 @@ exports.getForumId = async (req, res) => {
         //obtener id del foro
         let forumId = req.params.id
         //validar que exista el foro
-        let existForum = await Forum.findOne({ _id: forumId })
+        let existForum = await Forum.findOne({ _id: forumId }).populate('user', 'name')
         if (!existForum) return res.status(404).send({ message: 'El foro no existe' })
         return res.send({ existForum })
     } catch (err) {

@@ -1,0 +1,38 @@
+.floating-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 140px;
+  height: 60px;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+  line-height: 50px;
+  cursor: pointer;
+  z-index: 999;
+}
+
+.btn-common {
+  width: 120px;
+  height: 40px;
+}
+
+.btn-ver {
+  width: 90px;
+  height: 40px;
+}
+
+.btn-adm{
+  width: 140px;
+  height: 40px;
+}
+
+.btn-cerrar {
+  width: 160px;
+  height: 60px;
+}
+
+.userUp{
+  background-color: #7D68BB;
+  color: white;
+}

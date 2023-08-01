@@ -81,7 +81,7 @@ exports.deleteCompany = async (req, res) => {
 exports.searchCompany = async (req, res) => {
     try {
         let params = {
-            name: req.params.name
+            name: req.body.name
         }
         let validate = validateData(params)
         if (validate) return res.status(400).send(validate)

@@ -4,8 +4,7 @@ const mongoose = require('mongoose')
 
 const newsSchema = new mongoose.Schema({
     date: {
-        type: String,
-        required: true
+        type: String
     },
     title: {
         type: String,
@@ -15,6 +14,10 @@ const newsSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    content:{
+        type: String,
+        required: true
+    }
 
 }, { versionKey: false })
 

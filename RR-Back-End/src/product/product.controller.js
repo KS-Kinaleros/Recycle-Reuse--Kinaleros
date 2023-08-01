@@ -89,3 +89,15 @@ exports.getProducts = async (req, res) => {
         console.log(err)
     }
 }
+
+//listar productos por id
+exports.getProductById = async (req, res) => {
+    try {
+        let productId = req.params.id
+        let existProduct = await Product.findOne({ _id: productId })
+        if (!existProduct) return res.status(404).send({ message: 'El producto no existe' })
+        return res.status(200).send({ existProduct })
+    } catch (err) {
+        console.error(err)
+    }
+}
