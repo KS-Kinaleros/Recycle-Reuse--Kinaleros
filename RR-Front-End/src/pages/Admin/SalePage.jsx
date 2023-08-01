@@ -23,11 +23,15 @@ export const SalePage = () => {
   return (
     <>
       <Navbar />
-      <main>
-        <div className='row g-0 justify-content-center'>
-          {
-            sales.map(({ _id, date, user, company, product, quantity,total }, i) => {
-              return (
+      <div style={{ background: `url('/img/Fondo.png')`, backgroundSize: 'cover', minHeight: '100vh' }}>
+        <main>
+          <div className='row g-0 justify-content-center'>
+            {sales.length === 0 ? (
+              <div className="col-12 text-center mt-5">
+                <h3>No hay ventas actualmente</h3>
+              </div>
+            ) : (
+              sales.map(({ _id, date, user, company, product, quantity, total }, i) => (
                 <CardSales
                   key={i}
                   _id={_id}
@@ -39,11 +43,11 @@ export const SalePage = () => {
                   total={total}
                   getSales={getSales}
                 />
-              )
-            })
-          }
-        </div>
-      </main>
+              ))
+            )}
+          </div>
+        </main>
+      </div>
     </>
   )
 }

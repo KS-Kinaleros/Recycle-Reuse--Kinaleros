@@ -44,42 +44,39 @@ export const ForumPage = () => {
         <>
             <Navbar />
             <AddForum getForum={getForum} />
-            {/* hacer una barra para crear un foro */}
-            <div className='container'>
-                <h3 className="text-center">Foros</h3>
+            <div style={{ background: `url('/img/Fondo.png')`, backgroundSize: 'cover', minHeight: '100vh' }}>
+                <main>
+                    {forum.length === 0 ? (
+                        <div className="row g-0 justify-content-center">
+                            <div className="col-12 text-center mt-5">
+                                <h3>No hay foros actualmente</h3>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className='row g-0 justify-content-center'>
+                            {forum.map(({ _id, date, user, title, description }, i) => (
+                                <CardForum
+                                    key={i}
+                                    _id={_id}
+                                    title={title}
+                                    user={user?.name}
+                                    date={date}
+                                    description={description}
+                                    getForum={getForum}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </main>
+                {/* mostrar solo si es cliente */}
+                {user.role === 'CLIENT' ? (
+                    <>
+                        <button className='btn btn-success floating-button' data-bs-toggle="modal" data-bs-target="#myFormAdd">Nuevo Foro</button>
+                    </>
+                ) : (null)}
+
             </div>
 
-            <main>
-                {forum.length === 0 ? (
-                    <div className="row g-0 justify-content-center">
-                        <div className="col-12 text-center mt-5">
-                            <h3>No hay foros actualmente</h3>
-                        </div>
-                    </div>
-                ) : (
-                    <div className='row g-0 justify-content-center'>
-                        {forum.map(({ _id, date, user, title, description }, i) => (
-                            <CardForum
-                                key={i}
-                                _id={_id}
-                                title={title}
-                                user={user?.name}
-                                date={date}
-                                description={description}
-                                getForum={getForum}
-                            />
-                        ))}
-                    </div>
-                )}
-            </main>
-
-
-            {/* mostrar solo si es cliente */}
-            {user.role === 'CLIENT' ? (
-                <>
-                    <button className='btn btn-success floating-button' data-bs-toggle="modal" data-bs-target="#myFormAdd">Nuevo Foro</button>
-                </>
-            ) : (null)}
 
 
         </>

@@ -74,7 +74,14 @@ export const CuentaPage = () => {
                                     <h4 className="mb-3">Teléfono: {user.phone}</h4>
                                     <h4 className="mb-3">Dinero: {user.money}</h4>
                                     <button className='btn btn-warning ms-5' data-bs-toggle="modal" data-bs-target="#myUpdateAccount">Editar</button>
-                                    <button className='btn btn-danger ms-2' onClick={() => deleteAccount()}>Eliminar</button>
+
+                                    {/* solo pueden eliminar su cuenta los clientes */}
+                                    {user.role === 'CLIENT' ? (
+                                        <>
+                                        <button className='btn btn-danger ms-2' onClick={() => deleteAccount()}>Eliminar</button>
+                                        </>
+                                    ) : (null)}
+                                    
                                 </div>
                             </div>
                         </div>

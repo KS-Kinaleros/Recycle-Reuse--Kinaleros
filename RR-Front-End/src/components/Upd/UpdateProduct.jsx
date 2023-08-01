@@ -48,7 +48,7 @@ export const UpdateProduct = ({ _id, getProducts }) => {
                     <div className="modal-content">
                         {/* titulo */}
                         <div className='modal-header' style={{ backgroundColor: '#BADD7C', color: '#fff' }}>
-                            <h1 className="modal-title">{title} {_id}</h1>
+                            <h1 className="modal-title">{title}</h1>
                         </div>
 
                         {/* formulario */}

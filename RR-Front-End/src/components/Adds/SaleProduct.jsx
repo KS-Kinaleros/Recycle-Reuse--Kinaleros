@@ -90,7 +90,7 @@ export const SaleProduct = () => {
                                     </div>
                                     <div className="col-md-6">
                                         <label className="form-label">Cantidad</label>
-                                        <input type="text" className="form-control" name='quantity' id='inputQuantity' onChange={handleChange} />
+                                        <input type="text" className="form-control" name='quantity' id='inputQuantity' />
                                     </div>
 
                                     <div className="modal-footer">

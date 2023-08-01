@@ -23,27 +23,32 @@ export const NewsPage = () => {
     return (
         <>
             <Navbar />
-            <main>
-                {news.length === 0 ? (
-                    <div className="row g-0 justify-content-center">
-                        <div className="col-12 text-center mt-5">
-                            <h3>No hay noticias actualmente</h3>
+            <div style={{ background: `url('/img/Fondo.png')`, backgroundSize: 'cover', minHeight: '100vh' }}>
+                <main>
+                    {news.length === 0 ? (
+                        <div className="row g-0 justify-content-center">
+                            <div className="col-12 text-center mt-5">
+                                <h3>No hay noticias actualmente</h3>
+                            </div>
                         </div>
-                    </div>
-                ) : (
-                    <div className='row g-0 justify-content-center'>
-                        {news.map(({ _id, date, title, description }, i) => (
-                            <CardNews
-                                key={_id}
-                                _id={_id}
-                                title={title}
-                                description={description}
-                                date={date}
-                            />
-                        ))}
-                    </div>
-                )}
-            </main>
+                    ) : (
+                        <div className='row g-0 justify-content-center'>
+                            {news.map(({ _id, date, title, description }, i) => (
+                                <CardNews
+                                    key={_id}
+                                    _id={_id}
+                                    title={title}
+                                    description={description}
+                                    date={date}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </main>
+            </div>
+
+
+
 
         </>
     )

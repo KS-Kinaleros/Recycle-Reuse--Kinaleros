@@ -27,24 +27,31 @@ export const Products = () => {
     <>
       <Navbar />
       <AddProduct getProducts={getProducts} />
-      <main>
-        <div className='row g-0 justify-content-center'>
-          {
-            products.map(({ _id, name, price }, i) => {
-              return (
+      <div style={{ background: `url('/img/Fondo.png')`, backgroundSize: 'cover', minHeight: '100vh' }}>
+        <main>
+          <div className='row g-0 justify-content-center'>
+            {products.length === 0 ? (
+              <div className="col-12 text-center mt-5">
+                <h3>No hay productos actualmente</h3>
+              </div>
+            ) : (
+              products.map(({ _id, name, price }, i) => (
                 <CardProduct
                   key={i}
                   _id={_id}
                   name={name}
                   price={price}
                   getProducts={getProducts}
-                ></CardProduct>
-              )
-            })
-          }
-        </div>
-        <button className='btn btn-primary floating-button' data-bs-toggle="modal" data-bs-target="#myModal">Agregar</button>
-      </main>
+                />
+              ))
+            )}
+          </div>
+          <button className='btn btn-primary floating-button' data-bs-toggle="modal" data-bs-target="#myModal">Agregar</button>
+        </main>
+      </div>
+
+
+
     </>
   )
 }
